@@ -10,28 +10,33 @@ import com.bumptech.glide.Glide
 import com.example.cats.databinding.ActivityMainBinding
 import com.example.cats.model.Cat
 import com.example.cats.ui.CatsAdapter
+import com.example.cats.ui.CatsLoadingStateAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.random.Random
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var itemAdapter: CatsAdapter
-    private val catsViewModel by viewModels<CatsViewModel>()
+    private val viewModel by viewModels<CatsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater).also { setContentView(it.root) }
-        itemAdapter = CatsAdapter(this)
+        itemAdapter = CatsAdapter()
 
         binding.recyclerView.apply {
-            adapter = itemAdapter
+            adapter = itemAdapter.withLoadStateFooter(
+                CatsLoadingStateAdapter { itemAdapter.retry() }
+            )
             layoutManager = GridLayoutManager(context, 2)
         }
 
-
-        catsViewModel.items.observe(this, Observer {
+        viewModel.cats.observe(this, Observer {
             it ?: return@Observer
-            itemAdapter.addItems(it)
+            itemAdapter.submitData(this.lifecycle, it)
         })
     }
 }
