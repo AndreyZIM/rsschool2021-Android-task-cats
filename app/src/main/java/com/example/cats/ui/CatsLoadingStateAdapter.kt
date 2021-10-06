@@ -43,5 +43,4 @@ class CatsLoadingStateAdapter(private val retry: () -> Unit) :
             ItemCatLoadingBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return LoadingStateViewHolder(binding)
     }
-
 }

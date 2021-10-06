@@ -3,7 +3,7 @@ package com.example.cats.data
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.cats.CatsApi
+import com.example.cats.api.CatsApi
 import com.example.cats.model.Cat
 import retrofit2.HttpException
 import java.io.IOException

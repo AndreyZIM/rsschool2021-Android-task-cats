@@ -1,6 +1,6 @@
 package com.example.cats.di
 
-import com.example.cats.CatsApi
+import com.example.cats.api.CatsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

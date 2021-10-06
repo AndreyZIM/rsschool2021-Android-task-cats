@@ -1,8 +1,7 @@
 package com.example.cats.ui
 
-import android.annotation.SuppressLint
-import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -12,14 +11,15 @@ import com.example.cats.R
 import com.example.cats.databinding.ItemCatBinding
 import com.example.cats.model.Cat
 
-class CatsAdapter() :
+class CatsAdapter(private val listener: OnImageClickListener) :
     PagingDataAdapter<Cat, CatsAdapter.CatsViewHolder>(IMAGE_COMPARATOR) {
 
-    private val items = mutableListOf<Cat>()
+    lateinit var binding: ItemCatBinding
+    private var flag = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatsViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemCatBinding.inflate(layoutInflater, parent, false)
+        binding = ItemCatBinding.inflate(layoutInflater, parent, false)
         return CatsViewHolder(binding)
     }
 
@@ -27,22 +27,17 @@ class CatsAdapter() :
         val currentItem = getItem(position)
         if (currentItem != null) {
             holder.bind(currentItem)
+            if (!flag) {
+                listener.hideLoadingBar()
+                flag = true
+            }
         }
     }
-
-    override fun getItemCount(): Int {
-        return items.size
-    }
-//
-//    @SuppressLint("NotifyDataSetChanged")
-//    fun addItems(newItems: List<Cat>) {
-//        items.addAll(newItems)
-//        notifyDataSetChanged()
-//    }
 
     inner class CatsViewHolder(
         private val binding: ItemCatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
 
         fun bind(cat: Cat) {
             binding.apply {
@@ -51,6 +46,9 @@ class CatsAdapter() :
                     .centerCrop()
                     .error(R.drawable.ic_baseline_error_24)
                     .into(imageCard)
+            }
+            binding.itemCard.setOnClickListener {
+                listener.onItemClick(cat, binding, binding.itemCard)
             }
 
         }
@@ -66,6 +64,11 @@ class CatsAdapter() :
                 return oldItem == newItem
             }
         }
+    }
+
+    interface OnImageClickListener {
+        fun onItemClick(image: Cat, binding: ItemCatBinding, view: View)
+        fun hideLoadingBar()
     }
 }
 
