@@ -28,15 +28,12 @@ class DetailActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater).also {setContentView(it.root)}
-
         val item = intent.extras?.get(INTENT_PARAM_ID)
-
         Glide.with(this)
             .load(item)
             .centerCrop()
             .error(R.drawable.ic_baseline_error_24)
             .into(binding.imageDetail)
-
         binding.buttonDownload.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
                 saveImageToGallery((binding.imageDetail.drawable as BitmapDrawable).bitmap)
