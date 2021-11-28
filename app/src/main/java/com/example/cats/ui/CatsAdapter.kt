@@ -38,7 +38,6 @@ class CatsAdapter(private val listener: OnImageClickListener) :
         private val binding: ItemCatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-
         fun bind(cat: Cat) {
             binding.apply {
                 Glide.with(itemView)
@@ -50,7 +49,6 @@ class CatsAdapter(private val listener: OnImageClickListener) :
             binding.itemCard.setOnClickListener {
                 listener.onItemClick(cat, binding, binding.itemCard)
             }
-
         }
     }
 
@@ -71,4 +69,3 @@ class CatsAdapter(private val listener: OnImageClickListener) :
         fun hideLoadingBar()
     }
 }
-

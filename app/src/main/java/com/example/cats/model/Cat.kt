@@ -1,6 +1,6 @@
 package com.example.cats.model
 
-//@Parcelize
+// @Parcelize
 data class Cat(
     val id: String,
     val url: String,

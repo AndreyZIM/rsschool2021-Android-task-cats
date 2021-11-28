@@ -5,14 +5,8 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.transition.ChangeImageTransform
-import android.transition.Explode
 import android.util.Log
-import android.util.Pair.create
 import android.view.View
-import android.view.Window
-import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -21,13 +15,11 @@ import androidx.core.util.Pair
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.cats.R
 import com.example.cats.databinding.ActivityMainBinding
 import com.example.cats.databinding.ItemCatBinding
 import com.example.cats.model.Cat
 import com.example.cats.model.CatsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,7 +46,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.reconnectButton.setOnClickListener { getImages() }
         getImages()
-
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -64,10 +55,13 @@ class MainActivity : AppCompatActivity() {
             binding.errorMessage.isVisible = false
             binding.progressMessage.isVisible = true
             binding.recyclerView.isVisible = true
-            viewModel.cats.observe(this, Observer {
-                it ?: return@Observer
-                itemAdapter.submitData(this.lifecycle, it)
-            })
+            viewModel.cats.observe(
+                this,
+                Observer {
+                    it ?: return@Observer
+                    itemAdapter.submitData(this.lifecycle, it)
+                }
+            )
         }
     }
 

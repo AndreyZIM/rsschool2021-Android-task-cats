@@ -12,7 +12,7 @@ private const val START_PAGE_INDEX = 1
 
 class CatsPagingSource(
     private val catsApi: CatsApi
-): PagingSource<Int, Cat>() {
+) : PagingSource<Int, Cat>() {
 
     override fun getRefreshKey(state: PagingState<Int, Cat>): Int? {
         val anchorPosition = state.anchorPosition ?: return null

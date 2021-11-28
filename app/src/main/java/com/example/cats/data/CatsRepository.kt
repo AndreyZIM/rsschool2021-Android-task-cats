@@ -11,6 +11,7 @@ class CatsRepository @Inject constructor(private val catsApi: CatsApi) {
         config = PagingConfig(
             pageSize = 10,
             enablePlaceholders = false
-        ), pagingSourceFactory = { CatsPagingSource(catsApi) }
+        ),
+        pagingSourceFactory = { CatsPagingSource(catsApi) }
     ).liveData
 }
