@@ -28,7 +28,11 @@ class DetailActivity : AppCompatActivity() {
             .error(R.drawable.ic_baseline_error_24)
             .into(binding.imageDetail)
         binding.buttonDownload.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            )
                 saveImageToGallery((binding.imageDetail.drawable as BitmapDrawable).bitmap)
             else
                 requestPermission()
@@ -53,7 +57,11 @@ class DetailActivity : AppCompatActivity() {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 saveImageToGallery((binding.imageDetail.drawable as BitmapDrawable).bitmap)
             else
-                Toast.makeText(this, "Please grant permission to write external storage.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Please grant permission to write external storage.",
+                    Toast.LENGTH_SHORT
+                ).show()
         }
     }
 

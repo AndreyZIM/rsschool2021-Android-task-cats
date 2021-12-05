@@ -15,9 +15,11 @@ class CatsPagingSource(
 ) : PagingSource<Int, Cat>() {
 
     override fun getRefreshKey(state: PagingState<Int, Cat>): Int? {
-        val anchorPosition = state.anchorPosition ?: return null
-        val page = state.closestPageToPosition(anchorPosition) ?: return null
-        return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
+        val anchorPosition = state.anchorPosition
+        val page = anchorPosition?.let { state.closestPageToPosition(it) }
+//        return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
+        return if (anchorPosition == null || page == null) null else page.prevKey?.plus(1)
+            ?: page.nextKey?.minus(1)
 //        return state.anchorPosition?.let { state.closestItemToPosition(it)?.id?.toInt() }
     }
 
